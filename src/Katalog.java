@@ -3,24 +3,18 @@ import java.awt.*;
 
 public class Katalog {
 
-    public Katalog() {
-        // Создаём корзину
-        Cart cart = new Cart();
+    public Katalog(int userId) {
 
-        // Создаём товары
-        Product grechka = new Product("Гречка с мясом", 50);
-        Product ovsyanka = new Product("Овсянка с ягодами", 60);
-
-        JFrame f = new JFrame();
+        JFrame f = new JFrame("Каталог");
         f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel p = new JPanel(null);
 
-        // --- ГРЕЧКА ---
-        ImageIcon originalIcon = new ImageIcon(Katalog.class.getResource("/grechka.jpg"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
-        JLabel l = new JLabel(new ImageIcon(scaledImage));
+        // ---- ГРЕЧКА (id = 1) ----
+        ImageIcon icon1 = new ImageIcon(Katalog.class.getResource("/grechka.jpg"));
+        Image img1 = icon1.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+        JLabel l = new JLabel(new ImageIcon(img1));
         l.setBounds(10, 10, 100, 80);
 
         JLabel l1 = new JLabel("Гречка с мясом");
@@ -32,14 +26,14 @@ public class Katalog {
         JButton b = new JButton("В корзину");
         b.setBounds(140, 65, 140, 30);
         b.addActionListener(e -> {
-            cart.add(grechka);
-            JOptionPane.showMessageDialog(f, "Добавлено: " + grechka.getName());
+            Database.addToCart(userId, 1);
+            JOptionPane.showMessageDialog(f, "Добавлено: Гречка с мясом");
         });
 
-        // --- ОВСЯНКА ---
-        ImageIcon originalIcon1 = new ImageIcon(Katalog.class.getResource("/Ovs.jpg"));
-        Image scaledImage1 = originalIcon1.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
-        JLabel l3 = new JLabel(new ImageIcon(scaledImage1));
+        // ---- ОВСЯНКА (id = 2) ----
+        ImageIcon icon2 = new ImageIcon(Katalog.class.getResource("/Ovs.jpg"));
+        Image img2 = icon2.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+        JLabel l3 = new JLabel(new ImageIcon(img2));
         l3.setBounds(10, 110, 100, 80);
 
         JLabel l4 = new JLabel("Овсянка с ягодами");
@@ -51,16 +45,15 @@ public class Katalog {
         JButton b2 = new JButton("В корзину");
         b2.setBounds(140, 165, 140, 30);
         b2.addActionListener(e -> {
-            cart.add(ovsyanka);
-            JOptionPane.showMessageDialog(f, "Добавлено: " + ovsyanka.getName());
+            Database.addToCart(userId, 2);
+            JOptionPane.showMessageDialog(f, "Добавлено: Овсянка с ягодами");
         });
 
-        // --- Кнопка "Открыть корзину" ---
+        // ---- КОРЗИНА ----
         JButton openCart = new JButton("Открыть корзину");
         openCart.setBounds(140, 220, 200, 35);
-        openCart.addActionListener(e -> new CartWindow(cart).show());
+        openCart.addActionListener(e -> new CartWindow(userId).show());
 
-        // Добавление
         f.add(p);
         p.add(l);   p.add(l1);  p.add(l2);  p.add(b);
         p.add(l3);  p.add(l4);  p.add(l5);  p.add(b2);
